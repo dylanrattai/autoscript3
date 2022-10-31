@@ -1,15 +1,20 @@
 from tkinter import *
 from subprocess import call
+import background
 
 versionNum = "Version 1.0 "
 
 root = Tk()
 
+anchor1V = None
+anchor2V = None
+
 #functions
 def done():
+    background.collectMain()
     root.destroy()
     call(["python", "index.py"])
-    
+
 #window settings
 root.title("Autoscript 3")
 root.geometry("800x400")
