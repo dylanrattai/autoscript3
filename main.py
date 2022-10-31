@@ -6,14 +6,14 @@ versionNum = "Version 1.0 "
 
 root = Tk()
 
-anchor1V = None
-anchor2V = None
+anchor1V = StringVar()
+anchor2V = StringVar()
 
 #functions
 def done():
     background.collectMain()
     root.destroy()
-    call(["python", "index.py"])
+    #call(["python", "index.py"])
 
 #window settings
 root.title("Autoscript 3")
@@ -35,8 +35,8 @@ anchor1 = Label(anchorsFrame1, text = "Anchor 1:  ", font="Helvetica 15").pack(s
 anchor2 = Label(anchorsFrame2, text = "Anchor 2:  ", font="Helvetica 15").pack(side=LEFT)
 doneButton = Button(doneFrame, text = "Done", font="Helvetica 15", command = done).pack(side=TOP)
 #sheetLink = Label(, text = "Google Sheets File")
-inputAnchor1 = Entry(anchorsFrame1).pack(side=LEFT)
-inputAnchor2 = Entry(anchorsFrame2).pack(side=LEFT)
+inputAnchor1 = Entry(anchorsFrame1,textvariable=anchor1V).pack(side=LEFT)
+inputAnchor2 = Entry(anchorsFrame2,textvariable=anchor2V).pack(side=LEFT)
 #inputSheetLink = Entry()
 verNum = Label(verFrame, text = str(versionNum)).pack()
 
