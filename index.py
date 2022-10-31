@@ -2,11 +2,11 @@ from tkinter import *
 
 #main frames and root
 root = Tk()
-titleFrame = Frame(root).pack()
-underTitleFrame = Frame(root).pack()
-buttonFrame = Frame(root).pack(side=BOTTOM, anchor="w")
+titleFrame = Frame(root)
+underTitleFrame = Frame(root)
 announcementBodyFrame = Frame(root)
-infoFrame = Frame(root).pack(side=LEFT, anchor="n")
+infoFrame = Frame(root)
+buttonFrame = Frame(root)
 
 #vars
 screenWidth = root.winfo_reqwidth()
@@ -14,19 +14,19 @@ screenHeight = root.winfo_reqheight()
 buttonDimensionW = int(screenWidth / 9 + 1) #it isnt exactly right on the print button :/
 
 #sub frames
-infoFrameTitleFrame = Frame(infoFrame).pack()
-submittedByFrame = Frame(infoFrame).pack()
-subDateFrame = Frame(infoFrame).pack()
-startAirFrame = Frame(infoFrame).pack()
-endAirFrame = Frame(infoFrame).pack()
-displayDaysFrame = Frame(infoFrame).pack()
-commentsFrame = Frame(infoFrame).pack()
-backFrame = Frame(buttonFrame).pack(side=LEFT)
-nextFrame = Frame(buttonFrame).pack(side=LEFT)
-saveFrame = Frame(buttonFrame).pack(side=LEFT)
-deleteFrame = Frame(buttonFrame).pack(side=LEFT)
-copyFrame = Frame(buttonFrame).pack(side=LEFT)
-printFrame = Frame(buttonFrame).pack(side=LEFT)
+submittedByFrame = Frame(infoFrame)
+infoFrameTitleFrame = Frame(infoFrame)
+subDateFrame = Frame(infoFrame)
+startAirFrame = Frame(infoFrame)
+endAirFrame = Frame(infoFrame)
+displayDaysFrame = Frame(infoFrame)
+commentsFrame = Frame(infoFrame)
+backFrame = Frame(buttonFrame)
+nextFrame = Frame(buttonFrame)
+saveFrame = Frame(buttonFrame)
+deleteFrame = Frame(buttonFrame)
+copyFrame = Frame(buttonFrame)
+printFrame = Frame(buttonFrame)
 
 #window setting
 root.title("Autoscript 3")
@@ -76,5 +76,26 @@ submitterText = Label(submittedByFrame, text = "Submitted By:", font='Helvetica 
 infoText = Label(infoFrameTitleFrame, text = "Announcement Info", font='Helvetica 22 bold').pack(side=TOP)
 comments = Label(commentsFrame, text="Add Variable Here").pack(side=BOTTOM)
 commentsText = Label(commentsFrame, text = "Comments:", font='Helvetica 18 bold').pack(side=TOP)
+
+#pack all the sub frames
+infoFrameTitleFrame.pack()
+submittedByFrame.pack()
+subDateFrame.pack()
+startAirFrame.pack()
+endAirFrame.pack()
+displayDaysFrame.pack()
+commentsFrame.pack()
+backFrame.pack(side=LEFT)
+nextFrame.pack(side=LEFT)
+saveFrame.pack(side=LEFT)
+deleteFrame.pack(side=LEFT)
+copyFrame.pack(side=LEFT)
+printFrame.pack(side=LEFT)
+
+#pack the main frames
+titleFrame.pack()
+underTitleFrame.pack()
+buttonFrame.pack(side=BOTTOM, anchor="w")
+infoFrame.pack(side=LEFT, anchor="n")
 
 root.mainloop()
