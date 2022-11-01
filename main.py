@@ -11,9 +11,9 @@ anchor2V = StringVar()
 
 #functions
 def done():
-    background.collectMain()
+    #background.collectMain()
     root.destroy()
-    #call(["python", "index.py"])
+    call(["python", "index.py"])
 
 #window settings
 root.title("Autoscript 3")
@@ -38,7 +38,7 @@ doneButton = Button(doneFrame, text = "Done", font="Helvetica 15", command = don
 inputAnchor1 = Entry(anchorsFrame1,textvariable=anchor1V).pack(side=LEFT)
 inputAnchor2 = Entry(anchorsFrame2,textvariable=anchor2V).pack(side=LEFT)
 #inputSheetLink = Entry()
-verNum = Label(verFrame, text = str(versionNum)).pack()
+verNum = Label(verFrame, text = versionNum).pack()
 
 #pack frames
 anchorsFrame1.pack(side=TOP)
