@@ -1,5 +1,8 @@
 from tkinter import *
 
+#INSTALL PIP and run "pip install --upgrade google-api-python-client google-auth-httplib2 google-auth-oauthlib"
+#https://developers.google.com/sheets/api/quickstart/python
+
 #main frames and root
 root = Tk()
 titleFrame = Frame(root)
