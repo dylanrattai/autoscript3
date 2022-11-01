@@ -1,7 +1,15 @@
+import requests
+
+#             test spreadsheet
+urls = ["https://docs.google.com/spreadsheets/d/1QliSLTkS2qLmRr64Gs0RKU-fxZ_zyoJSf3fb1uxA7nA/export?format=xlsx"]
 anchor1 = None
 anchor2 = None
 
-# /export?format=xlsx to export sheet to excel
+def exportSheet(link):
+    if link.lower() == "default":
+        webbrowser.open("")
+    elif link.lower() == "test":
+        webbrowser.open("https://docs.google.com/spreadsheets/d/1QliSLTkS2qLmRr64Gs0RKU-fxZ_zyoJSf3fb1uxA7nA/export?format=xlsx")
 
 def collectMain():
     from main import anchor1V, anchor2V
