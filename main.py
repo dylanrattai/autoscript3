@@ -11,9 +11,10 @@ anchor2V = StringVar()
 
 #functions
 def done():
-    #background.collectMain()
+    background.exportSheet("test")
     root.destroy()
     call(["python", "index.py"])
+    #background.collectMain()
 
 #window settings
 root.title("Autoscript 3")
