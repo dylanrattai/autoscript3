@@ -11,7 +11,7 @@ anchor2V = StringVar()
 
 #functions
 def done():
-    background.exportSheet("test")
+    background.exportSheet()
     root.destroy()
     call(["python", "index.py"])
     #background.collectMain()

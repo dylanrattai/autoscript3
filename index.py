@@ -1,4 +1,6 @@
 from tkinter import *
+#import pandas as pd #needs pip install
+import background
 
 #main frames and root
 root = Tk()
@@ -9,18 +11,22 @@ infoFrame = Frame(root)
 buttonFrame = Frame(root)
 
 #vars
-announcementTitleV = "Title of The Announcement"
+announcementTitleV = "None"
 posCurrent = 0
 totalPos = 0
-submitterFirstV = "John"
-submitterV = "John Doe"
-submissionDateV = "09/03/1999"
-startDateV = "09/05/1999"
-endDateV = "09/10/1999"
-daysV = "Monday, Tuesday, Wednesday, Thursday, Friday"
-commentsV = "Lorem ipsum dolor sit amet"
+submitterFirstV = "None"
+submitterV = "None"
+submissionDateV = "None"
+startDateV = "None"
+endDateV = "None"
+daysV = "None"
+commentsV = "None"
 
 currentGlobalPos = None
+
+skipRows = None
+#sheetUnfiltered = pd.read_excel("./sheets/" + background.currentDate + ".xlsx", usecols="B, C, D, E, F, G, H")
+#sheetFiltered = pd.read_excel("./sheets/" + background.currentDate + ".xlsx", nrows=skipRows, usecols="B, C, D, E, F, G, H")
 
 screenWidth = root.winfo_reqwidth()
 screenHeight = root.winfo_reqheight()
@@ -46,17 +52,35 @@ root.title("Autoscript 3")
 root.geometry("1000x800")
 root.resizable(False, False)
 
-#functions for buttons
+#functions
+def filterSheet():
+    global skipRows
+
 def refreshVars():
-    return "refreshing"
+
+
+    return "refreshed"
+
 
 def save():
     return "saved"
 
 def next():
+    global posCurrent
+    global currentGlobalPos
+
+    #posCurrent += 1
+    #currentGlobalPos += 1
+    refreshVars()
     return "next"
 
 def last():
+    global posCurrent
+    global currentGlobalPos
+
+    #posCurrent -= 1
+    #currentGlobalPos -= 1
+    refreshVars()
     return "last"
 
 def delete():
