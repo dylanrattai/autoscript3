@@ -1,5 +1,5 @@
 from tkinter import *
-#import pandas as pd #needs pip install
+import pandas as pd #needs pip install
 import background
 
 #main frames and root
@@ -25,8 +25,8 @@ commentsV = "None"
 currentGlobalPos = None
 
 skipRows = None
-#sheetUnfiltered = pd.read_excel("./sheets/" + background.currentDate + ".xlsx", usecols="B, C, D, E, F, G, H")
-#sheetFiltered = pd.read_excel("./sheets/" + background.currentDate + ".xlsx", nrows=skipRows, usecols="B, C, D, E, F, G, H")
+sheetUnfiltered = pd.read_excel("./sheets/" + background.currentDate + ".xlsx", usecols="B, C, D, E, F, G, H")
+sheetFiltered = pd.read_excel("./sheets/" + background.currentDate + ".xlsx", nrows=skipRows, usecols="B, C, D, E, F, G, H")
 
 screenWidth = root.winfo_reqwidth()
 screenHeight = root.winfo_reqheight()

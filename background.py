@@ -14,5 +14,7 @@ def exportSheet(): #this method of downloading will eventually become deprecated
 
 def collectMain():
     from main import anchor1V, anchor2V
-    anchor1 = str(anchor1V)
-    anchor2 = str(anchor2V)
+    global anchor1
+    global anchor2
+    anchor1 = str(anchor1V.get())
+    anchor2 = str(anchor2V.get())
