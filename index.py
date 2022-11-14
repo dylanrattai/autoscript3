@@ -1,6 +1,5 @@
 from tkinter import *
-import pandas as pd #needs pip install
-import background
+#import pandas as pd #needs pip install
 
 #main frames and root
 root = Tk()
@@ -22,14 +21,11 @@ endDateV = "None"
 daysV = "None"
 commentsV = "None"
 
-currentGlobalPos = None
-
 skipRows = None
-sheetUnfiltered = pd.read_excel("./sheets/" + background.currentDate + ".xlsx", usecols="B, C, D, E, F, G, H")
-sheetFiltered = pd.read_excel("./sheets/" + background.currentDate + ".xlsx", nrows=skipRows, usecols="B, C, D, E, F, G, H")
+#sheetUnfiltered = pd.read_excel("./sheets/" + background.currentDate + ".xlsx", usecols="B, C, D, E, F, G, H")
+#sheetFiltered = pd.read_excel("./sheets/" + background.currentDate + ".xlsx", nrows=skipRows, usecols="B, C, D, E, F, G, H")
 
 screenWidth = root.winfo_reqwidth()
-screenHeight = root.winfo_reqheight()
 buttonDimensionW = int(screenWidth / 9 + 1) #it isnt exactly right on the print button :/
 
 #sub frames
@@ -56,32 +52,19 @@ root.resizable(False, False)
 def filterSheet():
     global skipRows
 
-def refreshVars():
-
-
-    return "refreshed"
-
-
 def save():
     return "saved"
 
 def next():
     global posCurrent
-    global currentGlobalPos
-
-    #posCurrent += 1
-    #currentGlobalPos += 1
-    refreshVars()
-    return "next"
+    posCurrent += 1
+    refresh()
 
 def last():
     global posCurrent
-    global currentGlobalPos
-
-    #posCurrent -= 1
-    #currentGlobalPos -= 1
-    refreshVars()
-    return "last"
+    if posCurrent > 0:
+        posCurrent -= 1
+    refresh()
 
 def delete():
     return "deleted"
@@ -89,17 +72,20 @@ def delete():
 def copy():
     return "copied"
 
-def print():
+def printSheet():
     return "printing"
+
+def refresh():
+    return "refresh all vars like body text name dates etc"
 
 #declare all labels, buttons, etc then pack them
 mainTitle = Label(titleFrame, text = "Autoscript 3", font=("Helvetica 45 bold")).pack(side=TOP)
-viewlast = Button(backFrame, text = "Back", command = last(), width = buttonDimensionW).pack()
-viewNext = Button(nextFrame, text = "Next", command = next(), width = buttonDimensionW).pack()
-saveButton = Button(saveFrame, text = "Save", command = save(), width = buttonDimensionW).pack()
-deleteButton = Button(deleteFrame, text = "Delete", command = delete(), width = buttonDimensionW).pack()
-copyButton = Button(copyFrame, text = "Copy", command = copy(), width = buttonDimensionW).pack()
-printButton = Button(printFrame, text = "Print", command = print(), width = buttonDimensionW).pack()
+viewlast = Button(backFrame, text = "Back", command = last, width = buttonDimensionW).pack()
+viewNext = Button(nextFrame, text = "Next", command = next, width = buttonDimensionW).pack()
+saveButton = Button(saveFrame, text = "Save", command = save, width = buttonDimensionW).pack()
+deleteButton = Button(deleteFrame, text = "Delete", command = delete, width = buttonDimensionW).pack()
+copyButton = Button(copyFrame, text = "Copy", command = copy, width = buttonDimensionW).pack()
+printButton = Button(printFrame, text = "Print", command = printSheet, width = buttonDimensionW).pack()
 position = Label(underTitleFrame, text = "[" + str(posCurrent) + "/" + str(totalPos) + "]").pack(side=LEFT)
 announcementTitle = Label(underTitleFrame, text = announcementTitleV).pack(side=LEFT)
 submitter = Label(submittedByFrame, text = submitterV).pack(side=BOTTOM)
