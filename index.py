@@ -1,5 +1,5 @@
 from tkinter import *
-#import pandas as pd #needs pip install
+import pandas as pd #needs pip install
 
 #main frames and root
 root = Tk()
@@ -22,7 +22,7 @@ daysV = "None"
 commentsV = "None"
 
 skipRows = None
-#sheetUnfiltered = pd.read_excel("./sheets/" + background.currentDate + ".xlsx", usecols="B, C, D, E, F, G, H")
+sheetUnfiltered = pd.read_excel("./sheets/" + background.currentDate + ".xlsx", usecols="B, C, D, E, F, G, H")
 #sheetFiltered = pd.read_excel("./sheets/" + background.currentDate + ".xlsx", nrows=skipRows, usecols="B, C, D, E, F, G, H")
 
 screenWidth = root.winfo_reqwidth()
@@ -76,6 +76,16 @@ def printSheet():
     return "printing"
 
 def refresh():
+    global announcementTitleV
+    global submitterV
+    global submissionDateV
+    global startDateV
+    global endDateV
+
+    announcementTitleV = str(df.iat[posCurrent, "Announcement_Title"])
+    submitterV = str(df.iat[posCurrent, "Your_Name"])
+    #submissionDateV = str(df.iat[posCurrent, ])
+
     return "refresh all vars like body text name dates etc"
 
 #declare all labels, buttons, etc then pack them
