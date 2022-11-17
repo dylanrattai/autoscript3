@@ -1,5 +1,5 @@
 from tkinter import *
-#import pandas as pd #needs pip install
+import pandas as pd #needs pip install
 import background
 
 #main frames and root
@@ -24,7 +24,7 @@ commentsV = "None"
 bodyV = "None"
 
 skipRows = None
-#sheetUnfiltered = pd.read_excel("./sheets/" + background.currentDate + ".xlsx", usecols="A, B, C, D, E, F, G, H")
+sheetUnfiltered = pd.read_excel("./sheets/" + background.currentDate + ".xlsx", usecols="A, B, C, D, E, F, G, H")
 #sheetFiltered = pd.read_excel("./sheets/" + background.currentDate + ".xlsx", nrows=skipRows, usecols="A, B, C, D, E, F, G, H")
 
 screenWidth = root.winfo_reqwidth()
@@ -70,7 +70,9 @@ def last():
     refresh()
 
 def delete():
-    return "deleted"
+    sheetUnfiltered.drop(posCurrent)
+    #sheetFiltered.drop(posCurrent)
+    refresh()
 
 def copy():
     return "copied"
@@ -79,14 +81,14 @@ def printSheet():
     return "printing"
 
 def refresh():
-    #announcementTitleV = str(pd.iat[posCurrent, "Announcement_Title"])
-    #submitterV = str(pd.iat[posCurrent, "Your_Name"])
-    #submissionDateV = str(pd.iat[posCurrent, "Timestamp"])
-    #startDateV = str(pd.iat[posCurrent, "Start_Date"])
-    #endDateV = str(pd.iat[posCurrent, "End_Date"])
-    #daysV = str(pd.iat[posCurrent, "Days_Displayed"])
-    #commentsV = str(pd.iat[posCurrent, "Comments"])
-    #bodyV = str(pd.iat[posCurrent, "Announcement_Script"])
+    announcementTitleV = str(pd.iat[posCurrent, "Announcement_Title"])
+    submitterV = str(pd.iat[posCurrent, "Your_Name"])
+    submissionDateV = str(pd.iat[posCurrent, "Timestamp"])
+    startDateV = str(pd.iat[posCurrent, "Start_Date"])
+    endDateV = str(pd.iat[posCurrent, "End_Date"])
+    daysV = str(pd.iat[posCurrent, "Days_Displayed"])
+    commentsV = str(pd.iat[posCurrent, "Comments"])
+    bodyV = str(pd.iat[posCurrent, "Announcement_Script"])
 
     announcementTitle.config(text=announcementTitleV)
     submitterFirst.config(text="(" + submitterV + ")")
@@ -125,6 +127,7 @@ comments = Label(commentsFrame, text = commentsV)
 commentsText = Label(commentsFrame, text = "Comments:", font='Helvetica 18 bold')
 body = Label(bodyFrame, text=bodyV)
 
+#pack more stuff
 mainTitle.pack(side=TOP)
 viewlast.pack()
 viewNext.pack()
