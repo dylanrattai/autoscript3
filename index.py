@@ -1,5 +1,6 @@
 from tkinter import *
 import pandas as pd #needs pip install
+import background
 
 #main frames and root
 root = Tk()
@@ -13,17 +14,17 @@ buttonFrame = Frame(root)
 announcementTitleV = "None"
 posCurrent = 0
 totalPos = 0
-submitterFirstV = "None"
 submitterV = "None"
 submissionDateV = "None"
 startDateV = "None"
 endDateV = "None"
 daysV = "None"
 commentsV = "None"
+bodyV = "None"
 
 skipRows = None
 sheetUnfiltered = pd.read_excel("./sheets/" + background.currentDate + ".xlsx", usecols="B, C, D, E, F, G, H")
-#sheetFiltered = pd.read_excel("./sheets/" + background.currentDate + ".xlsx", nrows=skipRows, usecols="B, C, D, E, F, G, H")
+#sheetFiltered = pd.read_excel("./sheets/" + background.currentDate + ".xlsx", nrows=skipRows, usecols="A, B, C, D, E, F, G, H")
 
 screenWidth = root.winfo_reqwidth()
 buttonDimensionW = int(screenWidth / 9 + 1) #it isnt exactly right on the print button :/
@@ -76,17 +77,25 @@ def printSheet():
     return "printing"
 
 def refresh():
-    global announcementTitleV
-    global submitterV
-    global submissionDateV
-    global startDateV
-    global endDateV
+    announcementTitleV = str(pd.iat[posCurrent, "Announcement_Title"])
+    submitterV = str(pd.iat[posCurrent, "Your_Name"])
+    submissionDateV = str(pd.iat[posCurrent, "Timestamp"])
+    startDateV = str(pd.iat[posCurrent, "Start_Date"])
+    endDateV = str(pd.iat[posCurrent, "End_Date"])
+    daysV = str(pd.iat[posCurrent, "Days_Displayed"])
+    commentsV = str(pd.iat[posCurrent, "Comments"])
+    bodyV = str(pd.iat[posCurrent, "Announcement_Script"])
 
-    announcementTitleV = str(df.iat[posCurrent, "Announcement_Title"])
-    submitterV = str(df.iat[posCurrent, "Your_Name"])
-    #submissionDateV = str(df.iat[posCurrent, ])
-
-    return "refresh all vars like body text name dates etc"
+    announcementTitle.config(text=announcementTitleV)
+    submitterFirst.config(text=submitterV)
+    submitter.config(text=submitterV)
+    submissionDate.config(text=submissionDateV)
+    startAir.config(text=startDateV)
+    endAir.config(text=endDateV)
+    displayDays.config(text=daysV)
+    comments.config(text=commentsV)
+    #body.config(text=bodyV)
+    position.config(text="[" + str(posCurrent) + "/" + str(totalPos) + "]")
 
 #declare all labels, buttons, etc then pack them
 mainTitle = Label(titleFrame, text = "Autoscript 3", font=("Helvetica 45 bold")).pack(side=TOP)
@@ -99,7 +108,7 @@ printButton = Button(printFrame, text = "Print", command = printSheet, width = b
 position = Label(underTitleFrame, text = "[" + str(posCurrent) + "/" + str(totalPos) + "]").pack(side=LEFT)
 announcementTitle = Label(underTitleFrame, text = announcementTitleV).pack(side=LEFT)
 submitter = Label(submittedByFrame, text = submitterV).pack(side=BOTTOM)
-submitterFirst = Label(underTitleFrame, text = "(" + submitterFirstV + ")").pack(side=RIGHT)
+submitterFirst = Label(underTitleFrame, text = "(" + submitterV + ")").pack(side=RIGHT)
 submissionDate = Label(subDateFrame, text = submissionDateV).pack(side=BOTTOM)
 startAir = Label(startAirFrame, text = startDateV).pack(side=BOTTOM)
 endAir = Label(endAirFrame, text = endDateV).pack(side=BOTTOM)
