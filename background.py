@@ -3,7 +3,7 @@ from datetime import *
 #import wget #needs pip install
 
 currentDateP = datetime.now()
-currentDate = currentDateP.strftime("%m/%d/%Y")
+currentDate = currentDateP.strftime("%m-%d-%Y")
 
 anchor1 = None
 anchor2 = None

@@ -28,7 +28,7 @@ skipRows = None
 sheetUnfiltered = pd.read_excel("./sheets/" + background.currentDate + ".xlsx", usecols="A, B, C, D, E, F, G, H")
 
 for i in range(len(sheetUnfiltered.index)):
-    if datetime.strptime(sheetUnfiltered.iat[i, "Start_Date"], "%m/%d/%Y") <= datetime.strptime(background.currentDate, "%m/%d/%Y") <= datetime.strptime(sheetUnfiltered.iat[i, "End_Date"], "%m/%d/%Y"):
+    if datetime.strptime(sheetUnfiltered.iat[i, "Start_Date"], "%m-%d-%Y") <= datetime.strptime(background.currentDate, "%m-%d-%Y") <= datetime.strptime(sheetUnfiltered.iat[i, "End_Date"], "%m-%d-%Y"):
         skipRows = i
         break
 
