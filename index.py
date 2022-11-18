@@ -1,6 +1,7 @@
 from tkinter import *
 import pandas as pd #needs pip install
 import background
+from datetime import datetime
 
 #main frames and root
 root = Tk()
@@ -25,10 +26,15 @@ bodyV = "None"
 
 skipRows = None
 sheetUnfiltered = pd.read_excel("./sheets/" + background.currentDate + ".xlsx", usecols="A, B, C, D, E, F, G, H")
-#sheetFiltered = pd.read_excel("./sheets/" + background.currentDate + ".xlsx", nrows=skipRows, usecols="A, B, C, D, E, F, G, H")
 
-screenWidth = root.winfo_reqwidth()
-buttonDimensionW = int(screenWidth / 9 + 1) #it isnt exactly right on the print button :/
+def filterSheet():
+    global skipRows
+    for i in range(len(sheetUnfiltered.index)):
+        if datetime.strptime(sheetUnfiltered.iat[i, "Start_Date"], "%m/%d/%Y") <= datetime.strptime(background.currentDate, "%m/%d/%Y") <= datetime.strptime(sheetUnfiltered.iat[i, "End_Date"], "%m/%d/%Y"):
+            skipRows = i
+            break
+
+sheetFiltered = pd.read_excel("./sheets/" + background.currentDate + ".xlsx", nrows=skipRows, usecols="A, B, C, D, E, F, G, H")
 
 #sub frames
 submittedByFrame = Frame(infoFrame)
@@ -49,10 +55,10 @@ printFrame = Frame(buttonFrame)
 root.title("Autoscript 3")
 root.geometry("1000x800")
 root.resizable(False, False)
+screenWidth = root.winfo_reqwidth()
+buttonDimensionW = int(screenWidth / 9 + 1)
 
 #functions
-def filterSheet():
-    global skipRows
 
 def save():
     return "saved"
@@ -70,8 +76,8 @@ def last():
     refresh()
 
 def delete():
-    sheetUnfiltered.drop(posCurrent)
-    #sheetFiltered.drop(posCurrent)
+    #sheetUnfiltered.drop(posCurrent)
+    sheetFiltered.drop(posCurrent)
     refresh()
 
 def copy():
@@ -81,14 +87,14 @@ def printSheet():
     return "printing"
 
 def refresh():
-    announcementTitleV = str(pd.iat[posCurrent, "Announcement_Title"])
-    submitterV = str(pd.iat[posCurrent, "Your_Name"])
-    submissionDateV = str(pd.iat[posCurrent, "Timestamp"])
-    startDateV = str(pd.iat[posCurrent, "Start_Date"])
-    endDateV = str(pd.iat[posCurrent, "End_Date"])
-    daysV = str(pd.iat[posCurrent, "Days_Displayed"])
-    commentsV = str(pd.iat[posCurrent, "Comments"])
-    bodyV = str(pd.iat[posCurrent, "Announcement_Script"])
+    announcementTitleV = str(sheetFiltered.iat[posCurrent, "Announcement_Title"])
+    submitterV = str(sheetFiltered.iat[posCurrent, "Your_Name"])
+    submissionDateV = str(sheetFiltered.iat[posCurrent, "Timestamp"])
+    startDateV = str(sheetFiltered.iat[posCurrent, "Start_Date"])
+    endDateV = str(sheetFiltered.iat[posCurrent, "End_Date"])
+    daysV = str(sheetFiltered.iat[posCurrent, "Days_Displayed"])
+    commentsV = str(sheetFiltered.iat[posCurrent, "Comments"])
+    bodyV = str(sheetFiltered.iat[posCurrent, "Announcement_Script"])
 
     announcementTitle.config(text=announcementTitleV)
     submitterFirst.config(text="(" + submitterV + ")")
