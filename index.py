@@ -10,7 +10,7 @@ underTitleFrame = Frame(root)
 announcementBodyFrame = Frame(root)
 infoFrame = Frame(root)
 buttonFrame = Frame(root)
-bodyFrame = Frame(root, bd=15)
+bodyFrame = Frame(root, bd = 15)
 
 #vars
 announcementTitleV = "None"
@@ -24,15 +24,15 @@ daysV = "None"
 commentsV = "None"
 bodyV = "None"
 
+#stuff for filtering the sheet
 skipRows = None
-sheetUnfiltered = pd.read_excel("./sheets/" + background.currentDate + ".xlsx", usecols="A, B, C, D, E, F, G, H")
+sheetUnfiltered = pd.read_excel("./sheets/" + background.currentDate + ".xlsx", usecols = "A, B, C, D, E, F, G, H")
 
-for i in range(len(sheetUnfiltered.index)):
+for i in range(len(sheetUnfiltered.index)): #filter the sheet
     if datetime.strptime(sheetUnfiltered.iat[i, "Start_Date"], "%m-%d-%Y") <= datetime.strptime(background.currentDate, "%m-%d-%Y") <= datetime.strptime(sheetUnfiltered.iat[i, "End_Date"], "%m-%d-%Y"):
-        skipRows = i
-        break
+        skipRows.append(i)
 
-sheetFiltered = pd.read_excel("./sheets/" + background.currentDate + ".xlsx", nrows=skipRows, usecols="A, B, C, D, E, F, G, H")
+sheetFiltered = pd.read_excel("./sheets/" + background.currentDate + ".xlsx", skiprows = skipRows, usecols = "A, B, C, D, E, F, G, H")
 
 #sub frames
 submittedByFrame = Frame(infoFrame)
@@ -59,7 +59,7 @@ buttonDimensionW = int(screenWidth / 9 + 1)
 #functions
 
 def save():
-    return "saved"
+    sheetFiltered.to_excel(sheet_name = str(background.currentDate), mode = "a")
 
 def next():
     global posCurrent
@@ -74,7 +74,6 @@ def last():
     refresh()
 
 def delete():
-    #sheetUnfiltered.drop(posCurrent)
     sheetFiltered.drop(posCurrent)
     refresh()
 
@@ -94,19 +93,19 @@ def refresh():
     commentsV = str(sheetFiltered.iat[posCurrent, "Comments"])
     bodyV = str(sheetFiltered.iat[posCurrent, "Announcement_Script"])
 
-    announcementTitle.config(text=announcementTitleV)
-    submitterFirst.config(text="(" + submitterV + ")")
-    submitter.config(text=submitterV)
-    submissionDate.config(text=submissionDateV)
-    startAir.config(text=startDateV)
-    endAir.config(text=endDateV)
-    displayDays.config(text=daysV)
-    comments.config(text=commentsV)
-    body.config(text=bodyV)
-    position.config(text="[" + str(posCurrent) + "/" + str(totalPos) + "]")
+    announcementTitle.config(text = announcementTitleV)
+    submitterFirst.config(text = "(" + submitterV + ")")
+    submitter.config(text = submitterV)
+    submissionDate.config(text = submissionDateV)
+    startAir.config(text = startDateV)
+    endAir.config(text = endDateV)
+    displayDays.config(text = daysV)
+    comments.config(text = commentsV)
+    body.config(text = bodyV)
+    position.config(text = "[" + str(posCurrent) + "/" + str(totalPos) + "]")
 
 #declare all labels, buttons, etc then pack them
-mainTitle = Label(titleFrame, text = "Autoscript 3", font=("Helvetica 45 bold"))
+mainTitle = Label(titleFrame, text = "Autoscript 3", font = ("Helvetica 45 bold"))
 viewlast = Button(backFrame, text = "Back", command = last, width = buttonDimensionW)
 viewNext = Button(nextFrame, text = "Next", command = next, width = buttonDimensionW)
 saveButton = Button(saveFrame, text = "Save", command = save, width = buttonDimensionW)
@@ -121,46 +120,46 @@ submissionDate = Label(subDateFrame, text = submissionDateV)
 startAir = Label(startAirFrame, text = startDateV)
 endAir = Label(endAirFrame, text = endDateV)
 displayDays = Label(displayDaysFrame, text = daysV)
-submissionDateText = Label(subDateFrame, text = "Submission Date:", font='Helvetica 18 bold')
-startAirText = Label(startAirFrame, text = "Start Date:", font='Helvetica 18 bold')
-endAirText = Label(endAirFrame, text = "End Date:", font='Helvetica 18 bold')
-displayDaysText = Label(displayDaysFrame, text = "Days Displayed:", font='Helvetica 18 bold')
-submitterText = Label(submittedByFrame, text = "Submitted By:", font='Helvetica 18 bold')
-infoText = Label(infoFrameTitleFrame, text = "Announcement Info", font='Helvetica 22 bold')
+submissionDateText = Label(subDateFrame, text = "Submission Date:", font = "Helvetica 18 bold")
+startAirText = Label(startAirFrame, text = "Start Date:", font = "Helvetica 18 bold")
+endAirText = Label(endAirFrame, text = "End Date:", font = "Helvetica 18 bold")
+displayDaysText = Label(displayDaysFrame, text = "Days Displayed:", font = "Helvetica 18 bold")
+submitterText = Label(submittedByFrame, text = "Submitted By:", font = "Helvetica 18 bold")
+infoText = Label(infoFrameTitleFrame, text = "Announcement Info", font = "Helvetica 22 bold")
 comments = Label(commentsFrame, text = commentsV)
-commentsText = Label(commentsFrame, text = "Comments:", font='Helvetica 18 bold')
-body = Label(bodyFrame, text=bodyV)
+commentsText = Label(commentsFrame, text = "Comments:", font = 'Helvetica 18 bold')
+body = Label(bodyFrame, text = bodyV)
 
 #pack more stuff
-mainTitle.pack(side=TOP)
+mainTitle.pack(side = TOP)
 viewlast.pack()
 viewNext.pack()
 saveButton.pack()
 deleteButton.pack()
 copyButton.pack()
 printButton.pack()
-position.pack(side=LEFT)
-announcementTitle.pack(side=LEFT)
-submitter.pack(side=BOTTOM)
-submitterFirst.pack(side=RIGHT)
-submissionDate.pack(side=BOTTOM)
-startAir.pack(side=BOTTOM)
-endAir.pack(side=BOTTOM)
-displayDaysText.pack(side=TOP)
-displayDays.pack(side=BOTTOM)
-submissionDateText.pack(side=TOP)
-submissionDate.pack(side=BOTTOM)
-startAirText.pack(side=TOP)
-startAir.pack(side=BOTTOM)
-endAirText.pack(side=TOP)
-endAir.pack(side=BOTTOM)
-displayDaysText.pack(side=TOP)
-displayDays.pack(side=BOTTOM)
-submitterText.pack(side=TOP)
-submitterFirst.pack(side=BOTTOM)
-infoText.pack(side=TOP)
-comments.pack(side=BOTTOM)
-commentsText.pack(side=TOP)
+position.pack(side = LEFT)
+announcementTitle.pack(side = LEFT)
+submitter.pack(side = BOTTOM)
+submitterFirst.pack(side = RIGHT)
+submissionDate.pack(side = BOTTOM)
+startAir.pack(side = BOTTOM)
+endAir.pack(side = BOTTOM)
+displayDaysText.pack(side = TOP)
+displayDays.pack(side = BOTTOM)
+submissionDateText.pack(side = TOP)
+submissionDate.pack(side = BOTTOM)
+startAirText.pack(side = TOP)
+startAir.pack(side = BOTTOM)
+endAirText.pack(side = TOP)
+endAir.pack(side = BOTTOM)
+displayDaysText.pack(side = TOP)
+displayDays.pack(side = BOTTOM)
+submitterText.pack(side = TOP)
+submitterFirst.pack(side = BOTTOM)
+infoText.pack(side = TOP)
+comments.pack(side = BOTTOM)
+commentsText.pack(side = TOP)
 body.pack()
 
 #pack all the sub frames
@@ -171,18 +170,18 @@ startAirFrame.pack()
 endAirFrame.pack()
 displayDaysFrame.pack()
 commentsFrame.pack()
-backFrame.pack(side=LEFT)
-nextFrame.pack(side=LEFT)
-saveFrame.pack(side=LEFT)
-deleteFrame.pack(side=LEFT)
-copyFrame.pack(side=LEFT)
-printFrame.pack(side=LEFT)
+backFrame.pack(side = LEFT)
+nextFrame.pack(side = LEFT)
+saveFrame.pack(side = LEFT)
+deleteFrame.pack(side = LEFT)
+copyFrame.pack(side = LEFT)
+printFrame.pack(side = LEFT)
 
 #pack the main frames
 titleFrame.pack()
 underTitleFrame.pack()
-buttonFrame.pack(side=BOTTOM, anchor="w")
-infoFrame.pack(side=LEFT, anchor="n")
-bodyFrame.pack(anchor=NW)
+buttonFrame.pack(side = BOTTOM, anchor = W)
+infoFrame.pack(side = LEFT, anchor = N)
+bodyFrame.pack(anchor = NW)
 
 root.mainloop()
