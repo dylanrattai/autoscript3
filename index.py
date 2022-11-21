@@ -15,7 +15,6 @@ bodyFrame = Frame(root, bd = 15)
 #vars
 announcementTitleV = "None"
 posCurrent = 0
-totalPos = 0
 submitterV = "None"
 submissionDateV = "None"
 startDateV = "None"
@@ -25,7 +24,7 @@ commentsV = "None"
 bodyV = "None"
 
 #stuff for filtering the sheet
-skipRows = None
+skipRows = []
 sheetUnfiltered = pd.read_excel("./sheets/" + background.currentDate + ".xlsx", usecols = "A, B, C, D, E, F, G, H")
 
 for i in range(len(sheetUnfiltered.index)): #filter the sheet
@@ -33,6 +32,7 @@ for i in range(len(sheetUnfiltered.index)): #filter the sheet
         skipRows.append(i)
 
 sheetFiltered = pd.read_excel("./sheets/" + background.currentDate + ".xlsx", skiprows = skipRows, usecols = "A, B, C, D, E, F, G, H")
+totalPos = len(skipRows)
 
 #sub frames
 submittedByFrame = Frame(infoFrame)
@@ -57,7 +57,6 @@ screenWidth = root.winfo_reqwidth()
 buttonDimensionW = int(screenWidth / 9 + 1)
 
 #functions
-
 def save():
     sheetFiltered.to_excel(sheet_name = str(background.currentDate), mode = "a")
 
