@@ -21,6 +21,9 @@ def clear():
     dir2 = './txt/'
     for f in os.listdir(dir2):
         os.remove(os.path.join(dir2, f))
+    dir3 = './__pycache__/'
+    for f in os.listdir(dir3):
+        os.remove(os.path.join(dir3, f))
 
 #window settings
 root.title("Autoscript 3")

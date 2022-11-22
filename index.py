@@ -25,13 +25,13 @@ bodyV = "None"
 
 #stuff for filtering the sheet
 skipRows = []
-sheetUnfiltered = pd.read_excel("./sheets/" + background.currentDate + ".xlsx", usecols = "A, B, C, D, E, F, G, H")
+sheetUnfiltered = pd.read_excel(io = "./sheets/" + background.currentDate + ".xlsx", usecols = "A, B, C, D, E, F, G, H")
 
 for i in range(len(sheetUnfiltered.index)): #filter the sheet
-    if datetime.strptime(sheetUnfiltered.iat[i, "Start_Date"], "%m-%d-%Y") <= datetime.strptime(background.currentDate, "%m-%d-%Y") <= datetime.strptime(sheetUnfiltered.iat[i, "End_Date"], "%m-%d-%Y"):
+    if datetime.strptime(sheetUnfiltered.iat[i, 3], "%m-%d-%Y") <= datetime.strptime(background.currentDate, "%m-%d-%Y") <= datetime.strptime(sheetUnfiltered.iat[i, 4], "%m-%d-%Y"):
         skipRows.append(i)
 
-sheetFiltered = pd.read_excel("./sheets/" + background.currentDate + ".xlsx", skiprows = skipRows, usecols = "A, B, C, D, E, F, G, H")
+sheetFiltered = pd.read_excel(io = "./sheets/" + background.currentDate + ".xlsx", skiprows = skipRows, usecols = "A, B, C, D, E, F, G, H")
 totalPos = len(skipRows)
 
 #sub frames
