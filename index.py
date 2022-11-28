@@ -38,7 +38,7 @@ try:
     sheetUnfiltered = pd.read_excel(io = "./sheets/" + background.currentDate + ".xlsx", usecols = "A, B, C, D, E, F, G, H")
 
     for i in range(len(sheetUnfiltered.index)): #filter the sheet
-        if datetime.strptime(sheetUnfiltered.iat[i, 3], "%m-%d-%Y") <= datetime.strptime(background.currentDate, "%m-%d-%Y") <= datetime.strptime(sheetUnfiltered.iat[i, 4], "%m-%d-%Y"):
+        if datetime.strptime(sheetUnfiltered.iat[i, 3], "%m-%d-%Y") <= datetime.strptime(background.currentDate, "%m-%d-%Y") <= datetime.strptime(sheetUnfiltered.iat[i, 4], "%m-%d-%Y") and str(background.weekDay) in str(sheetUnfiltered.iat[i, 5]).lower():
             skipRows.append(i)
 
     sheetFiltered = pd.read_excel(io = "./sheets/" + background.currentDate + ".xlsx", skiprows = skipRows, usecols = "A, B, C, D, E, F, G, H")
@@ -126,7 +126,6 @@ def printSheet():
                 elif tmpV == 1:
                     f.write(str(background.anchor2) + ":\n" + str(sheetUnfiltered.iat[i, 6]))
                     tmpV = 0
-
     except:
         print("Error in printing, Saving to txt")
 
