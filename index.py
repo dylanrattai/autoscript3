@@ -1,8 +1,9 @@
 from tkinter import *
-#import pandas as pd
+import pandas as pd
 import background
 from datetime import datetime
 import os
+from win32 import win32print
 
 #main frames and root
 root = Tk()
@@ -31,6 +32,7 @@ endDateV = "None"
 daysV = "None"
 commentsV = "None"
 bodyV = "None"
+printer = win32print.OpenPrinter("")# idk the printer
 
 #stuff for filtering the sheet
 skipRows = []
@@ -128,6 +130,13 @@ def printSheet():
                     tmpV = 0
     except:
         print("Error in printing, Saving to txt")
+    try:
+        win32print.StartDocPrinter(printer, 1, ("test of raw data", None, "RAW"))
+        win32print.StartPagePrinter(printer)
+        win32print.WritePrinter(printer, "./txt/" + background.currentDate + ".txt")
+        win32print.EndPagePrinter(printer)
+    except:
+        print("Error in printing, Printing")
 
 def refresh():
     try:
