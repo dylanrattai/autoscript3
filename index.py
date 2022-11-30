@@ -128,6 +128,14 @@ def printSheet():
                 elif tmpV == 1:
                     f.write(str(background.anchor2) + ":\n" + str(sheetUnfiltered.iat[i, 6]))
                     tmpV = 0
+            if background.weekDay == "monday":
+                if tmpV == 0:
+                    f.write(str(background.anchor1) + ":\n")
+                    tmpV = 1
+                elif tmpV == 1:
+                    f.write(str(background.anchor2) + ":\n")
+                    tmpV = 0
+                f.write("And now for the pledge, \n I pledge allegiance to the flag of the United States of America, and to the republic for which it stands, one nation under God, indivisible, with liberty and justice for all.")
     except:
         print("Error in printing, Saving to txt")
     try:
@@ -189,7 +197,8 @@ submitterText = Label(submittedByFrame, text = "Submitted By:", font = "Helvetic
 infoText = Label(infoFrameTitleFrame, text = "Announcement Info", font = "Helvetica 22 bold", bg="#031893", fg="white")
 comments = Label(commentsFrame, text = commentsV, bg="#031893", fg="white")
 commentsText = Label(commentsFrame, text = "Comments:", font = 'Helvetica 18 bold', bg="#031893", fg="white")
-body = Label(bodyFrame, text = bodyV, bg="#031893", fg="white")
+#body = Text(bodyFrame, text = bodyV, bg="#031893", fg="white")
+body = Text(bodyFrame, height = 500, width = 250, bg="#031893", fg="white", bd = 0)
 
 #pack more stuff
 mainTitle.pack(side = TOP)
