@@ -4,6 +4,10 @@
 https://trello.com/b/h88A9BEH/autoscript-3
 
 # Installation 
-create 2 folders 
-folder 1 - txt 
-folder 2 - sheets
+PIP Modules Needed
+- wget
+- pandas
+- openpyxl
+
+Setup
+Make 2 folders, one names "txt" and the other named "sheets"

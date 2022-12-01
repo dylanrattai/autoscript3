@@ -27,5 +27,4 @@ def exportSheet():
     if os.path.exists("./sheets/" + currentDate + ".xlsx"):
         print("File already downloaded")
     else:
-        #request.urlretrieve("https://docs.google.com/spreadsheets/d/1QliSLTkS2qLmRr64Gs0RKU-fxZ_zyoJSf3fb1uxA7nA/export?format=xlsx", localFile)
-        wget.download("https://docs.google.com/spreadsheets/d/1QliSLTkS2qLmRr64Gs0RKU-fxZ_zyoJSf3fb1uxA7nA/export?format=xlsx", localFile)
+        wget.download("https://docs.google.com/spreadsheets/d/1zUA59HuroWaKO-qtnl8JPNnusquvJKLzh0_XX26nm0Y/export?format=xlsx", localFile)

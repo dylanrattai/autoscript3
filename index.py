@@ -3,7 +3,7 @@ import pandas as pd
 import background
 from datetime import datetime
 import os
-from win32 import win32print
+#from win32 import win32print
 
 #main frames and root
 root = Tk()
@@ -32,21 +32,29 @@ endDateV = "None"
 daysV = "None"
 commentsV = "None"
 bodyV = "None"
-printer = win32print.OpenPrinter("")# idk the printer
+#printer = win32print.OpenPrinter("")
 
 #stuff for filtering the sheet
-skipRows = []
-try:
-    sheetUnfiltered = pd.read_excel(io = "./sheets/" + background.currentDate + ".xlsx", usecols = "A, B, C, D, E, F, G, H")
+#try:
+sheetUnfiltered = pd.read_excel(io = "./sheets/" + background.currentDate + ".xlsx", usecols = "A, B, C, D, E, F, G, H")
+sheetFiltered = pd.read_excel(io = "./sheets/" + background.currentDate + ".xlsx", usecols = "A, B, C, D, E, F, G, H")
 
-    for i in range(len(sheetUnfiltered.index)): #filter the sheet
-        if datetime.strptime(sheetUnfiltered.iat[i, 3], "%m-%d-%Y") <= datetime.strptime(background.currentDate, "%m-%d-%Y") <= datetime.strptime(sheetUnfiltered.iat[i, 4], "%m-%d-%Y") and str(background.weekDay) in str(sheetUnfiltered.iat[i, 5]).lower():
-            skipRows.append(i)
+for i in range(len(sheetUnfiltered)): #filter the sheet
+    if datetime.strptime(str(sheetUnfiltered.iat[i, 3]), "%Y-%m-%d %H:%M:%S") > datetime.strptime(background.currentDate, "%m-%d-%Y") or datetime.strptime(background.currentDate, "%m-%d-%Y") > datetime.strptime(str(sheetUnfiltered.iat[i, 4]), "%Y-%m-%d %H:%M:%S"):
+            sheetFiltered.drop(i, inplace = True)
 
-    sheetFiltered = pd.read_excel(io = "./sheets/" + background.currentDate + ".xlsx", skiprows = skipRows, usecols = "A, B, C, D, E, F, G, H")
-    totalPos = len(skipRows)
-except:
-    print("Error in filtering sheet")
+sheetFiltered.reset_index(inplace = True)
+sheetFiltered.drop("index", axis = 1, inplace = True)
+
+for i in range(len(sheetFiltered)):
+    if str(background.weekDay).lower() not in str(sheetFiltered.iat[i, 5]).lower():
+        print(i)
+        sheetFiltered.drop(i, inplace = True)
+        print(i)
+
+totalPos = len(sheetFiltered)
+#except:
+    #print("Error in filtering sheet")
     
 #sub frames
 submittedByFrame = Frame(infoFrame)
@@ -119,7 +127,7 @@ def printSheet():
         print("Error in printing, Removing old file")
     try: #save to new txt
         with open("./txt/" + background.currentDate + ".txt", "w") as f:
-            f.write(str(background.currentDate) + "Script\n\n")
+            f.write(str(background.currentDate) + " Script\n\n")
             tmpV = 0
             for i in range(len(sheetFiltered)):
                 if tmpV == 0:
