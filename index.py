@@ -35,26 +35,21 @@ bodyV = "None"
 #printer = win32print.OpenPrinter("")
 
 #stuff for filtering the sheet
-#try:
-sheetUnfiltered = pd.read_excel(io = "./sheets/" + background.currentDate + ".xlsx", usecols = "A, B, C, D, E, F, G, H")
-sheetFiltered = pd.read_excel(io = "./sheets/" + background.currentDate + ".xlsx", usecols = "A, B, C, D, E, F, G, H")
+try:
+    sheetUnfiltered = pd.read_excel(io = "./sheets/" + background.currentDate + ".xlsx", usecols = "A, B, C, D, E, F, G, H")
+    sheetFiltered = pd.read_excel(io = "./sheets/" + background.currentDate + ".xlsx", usecols = "A, B, C, D, E, F, G, H")
 
-for i in range(len(sheetUnfiltered)): #filter the sheet
-    if datetime.strptime(str(sheetUnfiltered.iat[i, 3]), "%Y-%m-%d %H:%M:%S") > datetime.strptime(background.currentDate, "%m-%d-%Y") or datetime.strptime(background.currentDate, "%m-%d-%Y") > datetime.strptime(str(sheetUnfiltered.iat[i, 4]), "%Y-%m-%d %H:%M:%S"):
-            sheetFiltered.drop(i, inplace = True)
+    for i in range(len(sheetUnfiltered)): #filter the sheet
+        if datetime.strptime(str(sheetUnfiltered.iat[i, 3]), "%Y-%m-%d %H:%M:%S") > datetime.strptime(background.currentDate, "%m-%d-%Y") or datetime.strptime(background.currentDate, "%m-%d-%Y") > datetime.strptime(str(sheetUnfiltered.iat[i, 4]), "%Y-%m-%d %H:%M:%S") or str(background.weekDay).lower() not in str(sheetUnfiltered.iat[i, 5]).lower():
+                sheetFiltered.drop(i, inplace = True)
 
-sheetFiltered.reset_index(inplace = True)
-sheetFiltered.drop("index", axis = 1, inplace = True)
+    sheetFiltered.reset_index(inplace = True)
+    sheetFiltered.drop("index", axis = 1, inplace = True)
+    totalPos = len(sheetFiltered)
+except:
+    print("Error in filtering sheet")
 
-for i in range(len(sheetFiltered)):
-    if str(background.weekDay).lower() not in str(sheetFiltered.iat[i, 5]).lower():
-        print(i)
-        sheetFiltered.drop(i, inplace = True)
-        print(i)
-
-totalPos = len(sheetFiltered)
-#except:
-    #print("Error in filtering sheet")
+print(sheetFiltered)
     
 #sub frames
 submittedByFrame = Frame(infoFrame)
