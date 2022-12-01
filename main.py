@@ -29,6 +29,7 @@ def clear():
 root.title("Autoscript 3")
 root.geometry("800x400")
 root.resizable(False, False)
+root.iconbitmap("logo.ico")
 
 #set all frames
 titleFrame = Frame(root)

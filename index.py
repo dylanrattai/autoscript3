@@ -3,7 +3,7 @@ import pandas as pd
 import background
 from datetime import datetime
 import os
-#from win32 import win32print
+from win32 import win32print
 
 #main frames and root
 root = Tk()
@@ -32,17 +32,20 @@ endDateV = "None"
 daysV = "None"
 commentsV = "None"
 bodyV = "None"
-#printer = win32print.OpenPrinter("")
+try:
+    printer = win32print.OpenPrinter("put your printer's name here") #enter printer name inbetween the quotes
+except:
+    print("Enter printer name in line 36 of index.py")
 
-#stuff for filtering the sheet
 try:
     sheetUnfiltered = pd.read_excel(io = "./sheets/" + background.currentDate + ".xlsx", usecols = "A, B, C, D, E, F, G, H")
     sheetFiltered = pd.read_excel(io = "./sheets/" + background.currentDate + ".xlsx", usecols = "A, B, C, D, E, F, G, H")
 
     for i in range(len(sheetUnfiltered)): #filter the sheet
         if datetime.strptime(str(sheetUnfiltered.iat[i, 3]), "%Y-%m-%d %H:%M:%S") > datetime.strptime(background.currentDate, "%m-%d-%Y") or datetime.strptime(background.currentDate, "%m-%d-%Y") > datetime.strptime(str(sheetUnfiltered.iat[i, 4]), "%Y-%m-%d %H:%M:%S") or str(background.weekDay).lower() not in str(sheetUnfiltered.iat[i, 5]).lower():
-                sheetFiltered.drop(i, inplace = True)
+            sheetFiltered.drop(i, inplace = True)
 
+    #reset index positions on sheet
     sheetFiltered.reset_index(inplace = True)
     sheetFiltered.drop("index", axis = 1, inplace = True)
     totalPos = len(sheetFiltered)
@@ -83,11 +86,13 @@ root.geometry("1000x800")
 root.resizable(False, False)
 screenWidth = root.winfo_reqwidth()
 buttonDimensionW = int(screenWidth / 9 + 1)
+root.iconbitmap("logo.ico")
 
 #functions
 def save():
     try:
-        sheetFiltered.to_excel(sheet_name = str(background.currentDate), mode = "a")
+        sheetFiltered.iat[posCurrent, 6] = body.get("1.0","end-1c")
+        sheetFiltered.to_excel("./sheets/" + background.currentDate + ".xlsx", index = False)
     except:
         print("Error in saving")
         
@@ -105,13 +110,13 @@ def last():
 
 def delete():
     try:
-        sheetFiltered.drop(posCurrent)
+        sheetFiltered.drop(posCurrent, inplace = True)
         refresh()
     except:
         print("Error in deleting row")
         
 def copy():
-    return "copied"
+    print("No print function")
 
 def printSheet():
     try: #delete any old files that may have been made
@@ -122,12 +127,12 @@ def printSheet():
         with open("./txt/" + background.currentDate + ".txt", "w") as f:
             f.write(str(background.currentDate) + " Script\n\n")
             tmpV = 0
-            for i in range(len(sheetFiltered)):
+            for i in range(totalPos):
                 if tmpV == 0:
-                    f.write(str(background.anchor1) + ":\n" + str(sheetUnfiltered.iat[i, 6]))
+                    f.write(str(background.anchor1) + ":\n" + str(sheetFiltered.iat[i, 6]) + "\n\n")
                     tmpV = 1
                 elif tmpV == 1:
-                    f.write(str(background.anchor2) + ":\n" + str(sheetUnfiltered.iat[i, 6]))
+                    f.write(str(background.anchor2) + ":\n" + str(sheetFiltered.iat[i, 6]) + "\n\n")
                     tmpV = 0
             if background.weekDay == "monday":
                 if tmpV == 0:
@@ -139,13 +144,14 @@ def printSheet():
                 f.write("And now for the pledge, \n I pledge allegiance to the flag of the United States of America, and to the republic for which it stands, one nation under God, indivisible, with liberty and justice for all.")
     except:
         print("Error in printing, Saving to txt")
-    try:
-        win32print.StartDocPrinter(printer, 1, ("test of raw data", None, "RAW"))
+    
+    try: 
+        job = win32print.StartDocPrinter(printer, 1, ("./txt/" + background.currentDate + ".txt", None, "RAW"))
         win32print.StartPagePrinter(printer)
         win32print.WritePrinter(printer, "./txt/" + background.currentDate + ".txt")
         win32print.EndPagePrinter(printer)
     except:
-        print("Error in printing, Printing")
+        print("Error in printing, Printing txt file")
 
 def refresh():
     try:
@@ -157,6 +163,7 @@ def refresh():
         daysV = str(sheetFiltered.iat[posCurrent, 5])
         commentsV = str(sheetFiltered.iat[posCurrent, 7])
         bodyV = str(sheetFiltered.iat[posCurrent, 6])
+        totalPos = len(sheetFiltered)
         if commentsV == "nan":
             commentsV = "None"
     except:
@@ -172,8 +179,8 @@ def refresh():
         displayDays.config(text = daysV)
         comments.config(text = commentsV)
         position.config(text = "[" + str(posCurrent + 1) + "/" + str(totalPos) + "]")
-        body.delete(0, "end")
-        body.insert(0, str(bodyV))
+        body.delete("1.0", "end")
+        body.insert("1.0", str(bodyV))
     except:
         print("Error in updating Labels")
 
@@ -183,7 +190,7 @@ viewlast = Button(backFrame, text = "Back", command = last, width = buttonDimens
 viewNext = Button(nextFrame, text = "Next", command = next, width = buttonDimensionW, bg="#031893", fg="white", bd = 1)
 saveButton = Button(saveFrame, text = "Save", command = save, width = buttonDimensionW, bg="#031893", fg="white", bd = 1)
 deleteButton = Button(deleteFrame, text = "Delete", command = delete, width = buttonDimensionW, bg="#031893", fg="white", bd = 1)
-copyButton = Button(copyFrame, text = "Copy", command = copy, width = buttonDimensionW, bg="#031893", fg="white", bd = 1)
+copyButton = Button(copyFrame, text = "Copy - Non Functional", command = copy, width = buttonDimensionW, bg="#031893", fg="white", bd = 1)
 printButton = Button(printFrame, text = "Print", command = printSheet, width = buttonDimensionW, bg="#031893", fg="white", bd = 1)
 position = Label(underTitleFrame, text = "[" + str(posCurrent) + "/" + str(totalPos) + "]", bg="#031893", fg="white")
 announcementTitle = Label(underTitleFrame, text = announcementTitleV, bg="#031893", fg="white")
