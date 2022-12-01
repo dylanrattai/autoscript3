@@ -48,8 +48,6 @@ try:
     totalPos = len(sheetFiltered)
 except:
     print("Error in filtering sheet")
-
-print(sheetFiltered)
     
 #sub frames
 submittedByFrame = Frame(infoFrame)
@@ -95,7 +93,7 @@ def save():
         
 def next():
     global posCurrent
-    if posCurrent < totalPos:
+    if posCurrent < totalPos - 1:
         posCurrent += 1
         refresh()
 
@@ -151,14 +149,16 @@ def printSheet():
 
 def refresh():
     try:
-        announcementTitleV = str(sheetFiltered.iat[posCurrent, "Announcement_Title"])
-        submitterV = str(sheetFiltered.iat[posCurrent, "Your_Name"])
-        submissionDateV = str(sheetFiltered.iat[posCurrent, "Timestamp"])
-        startDateV = str(sheetFiltered.iat[posCurrent, "Start_Date"])
-        endDateV = str(sheetFiltered.iat[posCurrent, "End_Date"])
-        daysV = str(sheetFiltered.iat[posCurrent, "Days_Displayed"])
-        commentsV = str(sheetFiltered.iat[posCurrent, "Comments"])
-        bodyV = str(sheetFiltered.iat[posCurrent, "Announcement_Script"])
+        announcementTitleV = str(sheetFiltered.iat[posCurrent, 2])
+        submitterV = str(sheetFiltered.iat[posCurrent, 1])
+        submissionDateV = str(sheetFiltered.iat[posCurrent, 0])
+        startDateV = str(sheetFiltered.iat[posCurrent, 3])
+        endDateV = str(sheetFiltered.iat[posCurrent, 4])
+        daysV = str(sheetFiltered.iat[posCurrent, 5])
+        commentsV = str(sheetFiltered.iat[posCurrent, 7])
+        bodyV = str(sheetFiltered.iat[posCurrent, 6])
+        if commentsV == "nan":
+            commentsV = "None"
     except:
         print("Error in updating variables")
     
@@ -171,8 +171,9 @@ def refresh():
         endAir.config(text = endDateV)
         displayDays.config(text = daysV)
         comments.config(text = commentsV)
-        body.config(text = bodyV)
-        position.config(text = "[" + str(posCurrent) + "/" + str(totalPos) + "]")
+        position.config(text = "[" + str(posCurrent + 1) + "/" + str(totalPos) + "]")
+        body.delete(0, "end")
+        body.insert(0, str(bodyV))
     except:
         print("Error in updating Labels")
 
@@ -199,9 +200,9 @@ displayDaysText = Label(displayDaysFrame, text = "Days Displayed:", font = "Helv
 submitterText = Label(submittedByFrame, text = "Submitted By:", font = "Helvetica 18 bold", bg="#031893", fg="white")
 infoText = Label(infoFrameTitleFrame, text = "Announcement Info", font = "Helvetica 22 bold", bg="#031893", fg="white")
 comments = Label(commentsFrame, text = commentsV, bg="#031893", fg="white")
-commentsText = Label(commentsFrame, text = "Comments:", font = 'Helvetica 18 bold', bg="#031893", fg="white")
+commentsText = Label(commentsFrame, text = "Comments:", font = "Helvetica 18 bold", bg="#031893", fg="white")
 #body = Text(bodyFrame, text = bodyV, bg="#031893", fg="white")
-body = Text(bodyFrame, height = 500, width = 250, bg="#031893", fg="white", bd = 0)
+body = Text(bodyFrame, height = 500, width = 250, bg="#031893", fg="white", bd = 0, font = "Helvetica")
 
 #pack more stuff
 mainTitle.pack(side = TOP)
