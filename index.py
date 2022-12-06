@@ -52,6 +52,9 @@ try:
 except:
     print("Error in filtering sheet")
     
+#update page to announcement 1
+refresh()
+    
 #sub frames
 submittedByFrame = Frame(infoFrame)
 submittedByFrame.config(bg="#031893")
