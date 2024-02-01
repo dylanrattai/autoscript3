@@ -1,9 +1,6 @@
 # Autoscript 3
 
-Changes made in the text box do not automatically save, edits made in the window require you to hit the save button. Copy button does not work
-
-# Trello Board
-https://trello.com/b/h88A9BEH/autoscript-3
+Changes made in the text box do not automatically save, edits made in the window require you to hit the save button.
 
 # Installation 
 PIP Modules Needed
